@@ -1,15 +1,41 @@
-public class DischargeRecord {
-    int patientId;        // The discharged patient's identification number
-    long dischargeTime;   // Discharge time (in milliseconds)
+public class DischargeRecord extends TreatmentRequest {
 
-    //Constructor
-    public DischargeRecord(int patientId) {
-        this.patientId = patientId;
-        this.dischargeTime = System.currentTimeMillis();
+    private long dischargeTime;
+    private DischargeRecord nextDischargeRecord;
+
+    public DischargeRecord(int id, String name, int severity, int age, boolean vip, TreatmentRequest treatedPatient) {
+
+        super(id, name, severity, age, vip);
+
+        this.setEmergency(treatedPatient.isEmergency());
+        this.setArrivalTime(treatedPatient.getArrivalTime());
+        this.setPriorityScore(treatedPatient.getPriorityScore());
+
+        this.setDischargeTime(System.currentTimeMillis());
+        this.setNextDischargeRecord(null);
     }
 
-    // Method that returns patient discharge information
+
+
     public String dischargeINFO() {
-        return "Patiend ID:" + patientId + " Discharge Time:" + dischargeTime;
+        return "id: " + getId() + " | name: " + getName() + " | discharged at: " + getDischargeTime();
+    }
+
+
+
+    public long getDischargeTime() {
+        return dischargeTime;
+    }
+
+    public void setDischargeTime(long dischargeTime) {
+        this.dischargeTime = dischargeTime;
+    }
+
+    public DischargeRecord getNextDischargeRecord() {
+        return nextDischargeRecord;
+    }
+
+    public void setNextDischargeRecord(DischargeRecord nextDischargeRecord) {
+        this.nextDischargeRecord = nextDischargeRecord;
     }
 }
